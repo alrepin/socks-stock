@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+
+
+    h2srv:
+      container_name: h2srv
+      image: alrepin/h2srv:latest
+      ports:
+        - "7070:80"
+        - "7171:7171"
+      environment:
+        - "PUID=1000"
+        - "PGID=1000"
+        - "TZ=${TZ}"
+        - "DB_NAME=${DB_NAME}"
+        - "DB_LOGIN=${DB_LOGIN}"
+        - "DB_PASSWORD=${DB_PASSWORD}"
+        - "DB_WEB_ADMIN_PASSWORD=${DB_WEB_ADMIN_PASSWORD}"
+      restart: 'no'
+      volumes:
+        - ./appdata/db:/src/main/resources/db:Z
+        - /etc/timezone:/etc/timezone:ro
+      deploy:
+        resources:
+          limits:
+            cpus: '0.50'
+            memory: 200M
+          reservations:
+            cpus: '0.45'
+            memory: 180M
